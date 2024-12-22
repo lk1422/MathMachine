@@ -38,7 +38,7 @@ Decl F(x) & G(x)
 Thus F(x)
 ```
 
-##Rule Program
+## Rule Program
 ```
 (a -> b) & a
 b
