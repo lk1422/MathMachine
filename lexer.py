@@ -1,14 +1,21 @@
 from token import Tokens, Token, SPECIAL_SYMBOLS
 from errors import report
 
-def lex_file(filename):
+def lex_file(filename, return_lines=False):
 
     with open(filename) as f:
         lines = f.readlines()
 
     statements = []
+    new_lines = []
     for i, line in enumerate(lines):
+        if len(line.strip()) == 0:
+            continue
         statements.append(scan_line(line.strip(), i+1))
+        new_lines.append(line)
+
+    if return_lines:
+        return statements, new_lines
 
     return statements
 
@@ -58,6 +65,12 @@ def scan_token(raw_string, line, current):
 
             elif peek_buffer(current, raw_string, "Decl"):
                 return Token(Tokens.DECL, None), current+4
+
+            elif peek_buffer(current, raw_string, "Thus"):
+                return Token(Tokens.THUS, None), current+4
+
+            elif peek_buffer(current, raw_string, "import"):
+                return Token(Tokens.IMPORT, None), current+6
 
             elif raw_string[current].isupper():
                 return predicate_name(current, raw_string, line)

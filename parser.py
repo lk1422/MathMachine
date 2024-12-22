@@ -4,29 +4,39 @@ from errors import report
 from symbol import Symbol
 from utils import *
 
+#Clean up First token keywords all have the same code
 def parse_statement(tokens, line):
     if tokens[0].token_type == Tokens.DECL:
         decl_symbol = Symbol(tokens[0])
         p_expr_tree = parse_decl(tokens[1:], line)
         decl_symbol.add_child(p_expr_tree)
         return decl_symbol
+
+    elif tokens[0].token_type == Tokens.THUS:
+        thus_sym = Symbol(tokens[0])
+        p_expr_tree = parse_pexpr(tokens[1:], line)
+        thus_sym.add_child(p_expr_tree)
+        return  thus_sym
+
+    elif tokens[0].token_type == Tokens.IMPORT:
+        import_sym = Symbol(tokens[0])
+        p_expr_tree = parse_pexpr(tokens[1:], line)
+        import_sym.add_child(p_expr_tree)
+        return  import_sym
     else:
         return parse_expr(tokens, line)
 
 def parse_decl(tokens, line):
-    if tokens[0].token_type == Tokens.PREDICATE_NAME:
+    if Tokens.PREDICATE_DECL in [tok.token_type for tok in tokens]:
         return parse_predicate(tokens, line)
     else:
         return parse_pexpr(tokens, line)
 
+
 def parse_expr(tokens, line):
-    if tokens[0].token_type == Tokens.PREDICATE_NAME:
-        return parse_predicate(tokens, line, allow_decl=False)
-    else:
-        return parse_pexpr(tokens, line)
+    return parse_pexpr(tokens, line)
 
 def parse_predicate(tokens, line, allow_decl=True):
-
     pred_name = tokens[0]
     predicate = Symbol(pred_name)
 
@@ -72,7 +82,7 @@ def parse_pexpr(tokens, line):
         report(line, f"Error Parsing Pexpr")
     if len(tokens) == 1:
         return Symbol(tokens[0])
-    elif tokens[0].token_type == Tokens.OPEN_PAREN and tokens[-1].token_type == Tokens.CLOSED_PAREN:
+    elif enclosed_paren(tokens, line):
         return parse_pexpr(tokens[1:-1], line)
     else:
         #Find Lowest Priority OP
@@ -101,7 +111,10 @@ def parse_pexpr(tokens, line):
                     lowest_priority_index = i
 
         if lowest_priority_index == -1:
-                report(line, "No Ops in Multi Word Expr")
+            #Can be a predicate
+            if tokens[0].token_type == Tokens.PREDICATE_NAME:
+                return parse_predicate(tokens, line, allow_decl=False)
+            report(line, "No Ops in Multi Word Expr")
 
         if lowest_priority_index >= len(tokens):
                 report(line, "Operation Found in invalid location, at end of statement")
@@ -127,5 +140,27 @@ def parse_pexpr(tokens, line):
 
         return op_symbol
 
+def enclosed_paren(tokens, line):
+    if tokens[0].token_type != Tokens.OPEN_PAREN:
+        return False
+
+    if tokens[-1].token_type != Tokens.CLOSED_PAREN:
+        return False
+
+    if len(tokens) < 2:
+        return False
+
+    nesting_level = 1
+    for i in range(1, len(tokens)):
+        if tokens[i].token_type == Tokens.OPEN_PAREN:
+            nesting_level += 1
+
+        if tokens[i].token_type == Tokens.CLOSED_PAREN:
+            nesting_level -= 1
+
+        if nesting_level == 0 and i != len(tokens) - 1:
+            return False
+
+    return True
 
 

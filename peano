@@ -1,0 +1,32 @@
+Want to be able to perform the following proofs
+(Need FOL, Need Induction)
+
+Peano 
+    - Need to define equality 
+    - Formalize s ?
+        - Unification ?
+
+
+Prove commutatitive addition
+x + s(y) = s(x + y)
+x + 0 = x
+-----
+0 + x = x 
+bc: 0 + 0 = 0 :)
+IH: 0 + x = x show 0 + s(x) = s(x)
+0 + s(x) = s(0 + x) = s(x)
+QED
+----------------------
+s(x) + y = s(x + y)
+s(x) + 0 = s(x) = s(x + 0) :)
+IH: s(x) + y = s(x + y)  Show s(x) + s(y) = s(x + s(y))
+s(x) + s(y) = s(s(x) + y) = s( s(x+y) ) = s(x + s(y))
+QED
+----------------------
+x+y = y+x
+BC x + 0 = x ; 0 + x = x ; x+0 = 0+x
+IH x + y = y + x , show x + s(y) = s(y) + x
+x + s(y) = s(x + y) = s(y + x) = s(y) + s(x)
+QED
+----------------------
+

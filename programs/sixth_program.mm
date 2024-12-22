@@ -1,0 +1,1 @@
+Decl Tall(x)

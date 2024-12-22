@@ -1,46 +1,65 @@
-Preform Ops to evaluate truth values
-    -Done test further
-    -How to deal with ~x, set x to false or leave for manipulation rules
+TODO:
+    -Create & Import rules / make work
+        *Fix And_elimination bug
 
-Add Manipulation rules
-    -in place replacements?
+    -Add method to prove rules
+    -Clean up Imports (make multiline constraings)
+    -Add elementary proof methods (cases, contradiction)
+    -Prove all rules & add method to archive all proven statements (unless told otherwise)
+        *Add to workspace (predicate calculus / etc) Give random names add option to rename
+    -Add step by step explanation option
+    -FOL!!!
+
+(x -> y) & z 
+#Hit Leaf & Append remaining tree at leaf
+#Eval from root to check if satisfied, return variable_mapping
+#if non-constraing, no need to build tree, just variable_mapping
+#Hit Leaf in rule, Eval expr, map expr to variable_name
+
+-Import Statements
+theorems/sub_category/names
+Format:
+constraint
+expr
+proof
+.....
+
+RULES
+Constraints:
+(expr1 -> expr2) & expr1
+Therefore:
+expr2
+
+Add Proof by contradiction as proof method
+Add Proof by cases as proof method.
+
+Check all RULES, if satisfy constriants, check for symbolic equality among conclusions
+    *For each rule try and fit current knowledge into rule (isomorphic)
+    *Does Result follow from theorem result (equal)
+
+Add Rule references to cut out the search
+
+Add Manipulation rules & proof techniques
+    Thus Invokes known rule applier
+
+Brain Storm Theorem Importing, & Archiving
+    -Import specific theorems
+    -Also Import all Theorems (Basic Rule kind of thing)
+        *To be used for a handful of things that are extremely useful
+    -Have Theorem Finder (IE When Writing proof, the system will look for the rule)
+    -Syntax Follows expr, ref
 
 Add Theorem importing
     -Theorems should act as rules as well
 
-Add FOL
+Add FOL & Support for peano like functions
 
 
 FUTURE WARNINGS:
     -Object Entabglement
 
-Peano 
-    - Need to define equality 
-    - Formalize s ?
-        - Unification ?
 
 
-Prove commutatitive addition
-x + s(y) = s(x + y)
-x + 0 = x
------
-0 + x = x 
-bc: 0 + 0 = 0 :)
-IH: 0 + x = x show 0 + s(x) = s(x)
-0 + s(x) = s(0 + x) = s(x)
-QED
-----------------------
-s(x) + y = s(x + y)
-s(x) + 0 = s(x) = s(x + 0) :)
-IH: s(x) + y = s(x + y)  Show s(x) + s(y) = s(x + s(y))
-s(x) + s(y) = s(s(x) + y) = s( s(x+y) ) = s(x + s(y))
-QED
-----------------------
-x+y = y+x
-BC x + 0 = x ; 0 + x = x ; x+0 = 0+x
-IH x + y = y + x , show x + s(y) = s(y) + x
-x + s(y) = s(x + y) = s(y + x) = s(y) + s(x)
-QED
-----------------------
+
 
 

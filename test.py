@@ -114,8 +114,30 @@ def test_eval():
         print(pred_value[1])
         print("PREDICATE DECL END")
 
+
+def test_isomorphism():
+    rule = Symbol(Token(Tokens.AND_OP, None))
+    x_then_y = Symbol(Token(Tokens.COND_OP, None))
+    x_then_y.add_child(Symbol(Token(Tokens.WORD, "x")))
+    x_then_y.add_child(Symbol(Token(Tokens.WORD, "y")))
+    rule.add_child(x_then_y)
+    rule.add_child(Symbol(Token(Tokens.WORD, "x")))
+
+    other = Symbol(Token(Tokens.AND_OP, None))
+    a_then_a = Symbol(Token(Tokens.COND_OP, None))
+    a_then_a.add_child(Symbol(Token(Tokens.WORD, "a")))
+    a_then_a.add_child(Symbol(Token(Tokens.WORD, "a")))
+    other.add_child(a_then_a)
+    other.add_child(Symbol(Token(Tokens.WORD, "a")))
+
+    res, mapping = rule.isomorphic_mapping(other)
+    print(res)
+    print(mapping)
+
     
+
     
 
 if __name__ == "__main__":
-    test_eval()
+    test_isomorphism()
+    #test_eval()

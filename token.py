@@ -19,6 +19,8 @@ class Tokens(Enum):
     PREDICATE_DECL = auto()
     WORD           = auto()
     DECL           = auto()
+    THUS           = auto()
+    IMPORT         = auto()
 
     def is_binary(self):
         match self:
@@ -30,8 +32,6 @@ class Tokens(Enum):
                 return True
             case Tokens.BICOND_OP:
                 return True
-            case Tokens.NOT_OP:
-                return False
             case _:
                 return False
 
