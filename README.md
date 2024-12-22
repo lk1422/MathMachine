@@ -8,15 +8,42 @@ A ground-up implementation of a proof verification system, designed to formalize
 - Basic inference rules (Modus Ponens, Disjunctive Syllogism)
 - Premise and variable declarations
 
+## Design Philosophy
+Built using explicit rule-based verification rather than constraint solving, allowing for clear proof steps that mirror mathematical reasoning. Designed for extensibility and theorem reuse.
+
+
 ## Example
 ```
-# Athlete example using modus ponens
+#Usage of rule importing
+import rules/predicate_calculus/modus_ponens
+import rules/predicate_calculus/dysjunctive_syllogism
+import rules/predicate_calculus/and_elimination
+
+#modus ponens
 Decl (Tall(x) & Muscle(x)) -> Athlete(x)
 Decl Tall(x)
 Decl Muscle(x)
 ((Tall(x) & Muscle(x)) -> Athlete(x)) & (Tall(x) & Muscle(x))
 Thus Athlete(x)
+
+
+#Dysnjunctive Syllogism
+Decl ~Tall(x)
+Decl Tall(x) | Short(x)
+(Tall(x) | Short(x)) & ~Tall(x)
+Thus Short(x)
+
+#and elimination
+Decl F(x) & G(x)
+Thus F(x)
 ```
+
+##Rule Program
+```
+(a -> b) & a
+b
+```
+
 
 ## Roadmap
 1. **Rule System**
@@ -33,17 +60,3 @@ Thus Athlete(x)
    - Number theory construction
    - Path to calculus
 
-## Design Philosophy
-Built using explicit rule-based verification rather than constraint solving, allowing for clear proof steps that mirror mathematical reasoning. Designed for extensibility and theorem reuse.
-
-## Usage
-```
-# Import required rules
-import rules/predicate_calculus/modus_ponens
-import rules/predicate_calculus/dysjunctive_syllogism
-
-# Declare premises and construct proofs
-Decl P(x) : A(x) | B(x)
-Decl P(y)
-A(y) | B(y)
-```
