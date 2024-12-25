@@ -1,12 +1,14 @@
 from enum import Enum, auto
-from errors import report
+from error_handling.errors import report
 
-SPECIAL_SYMBOLS = { ")", ")", ",", "&", "|", "<", "-", ":", "~" }
+SPECIAL_SYMBOLS = { ")", ")", ",", "&", "|", "<", "-", ":", "~", "}", "{" }
 
 
 class Tokens(Enum):
     OPEN_PAREN     = auto()
     CLOSED_PAREN   = auto()
+    OPEN_BRACKET   = auto()
+    CLOSED_BRACKET = auto()
     COMMA          = auto()
     DASH           = auto()
     LEFT_ANG       = auto()
@@ -21,6 +23,9 @@ class Tokens(Enum):
     DECL           = auto()
     THUS           = auto()
     IMPORT         = auto()
+    SHOW           = auto()
+    FROM           = auto()
+    CONCLUDE       = auto()
 
     def is_binary(self):
         match self:

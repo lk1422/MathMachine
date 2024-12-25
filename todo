@@ -1,65 +1,38 @@
 TODO:
-    -Create & Import rules / make work
-        *Fix And_elimination bug
+    -Update Language (Frontend & Backend) to support 'programs/cases.mm'
+        *Provisions to allow for proof by cases & method to prove p -> q
+        *Also add comments (They can be independent lines for now)
 
-    -Add method to prove rules
-    -Clean up Imports (make multiline constraings)
-    -Add elementary proof methods (cases, contradiction)
-    -Prove all rules & add method to archive all proven statements (unless told otherwise)
-        *Add to workspace (predicate calculus / etc) Give random names add option to rename
-    -Add step by step explanation option
-    -FOL!!!
+    -Add System to begin archive new Theorems when proven
+        * theorems/theorem_sub_class/.../theorem_name
+        * When THM is verified:
+            *Add THM to rules/theorems/theorem_sub_class/.../theorem_name
+            *This Theorem can then be used in future proofs via the rule
 
-(x -> y) & z 
-#Hit Leaf & Append remaining tree at leaf
-#Eval from root to check if satisfied, return variable_mapping
-#if non-constraing, no need to build tree, just variable_mapping
-#Hit Leaf in rule, Eval expr, map expr to variable_name
+    -Add predicate calculus theorems
+        *Pf by contradiction
+        *Associativity, Distributive, Demorgans, ...
 
--Import Statements
-theorems/sub_category/names
-Format:
-constraint
-expr
-proof
-.....
+    -Update Frontend & Backend to allow for custom symbols + definitions
+        *Need for Peano Axioms
 
-RULES
-Constraints:
-(expr1 -> expr2) & expr1
-Therefore:
-expr2
+    -Update Frontend & Backend to support FOL
+        *Universal, Existential Quantifiers
 
-Add Proof by contradiction as proof method
-Add Proof by cases as proof method.
+    -Make mathmachine manage projects,
+        -Do not need to run in project directory
+            *`mm create project`
+                *Creates necessary project structure (axiomatic file)
+                    *All projects begin with a base of predicate calculus & FOL
+                    
 
-Check all RULES, if satisfy constriants, check for symbolic equality among conclusions
-    *For each rule try and fit current knowledge into rule (isomorphic)
-    *Does Result follow from theorem result (equal)
+    -Begin w/ Peano Axioms
 
-Add Rule references to cut out the search
+FUTURE TODOS:
+    -better error catching system for frontend
+        *More descriptive parser & lexer errors
 
-Add Manipulation rules & proof techniques
-    Thus Invokes known rule applier
+    -Stacktrace for backend evaluator?
 
-Brain Storm Theorem Importing, & Archiving
-    -Import specific theorems
-    -Also Import all Theorems (Basic Rule kind of thing)
-        *To be used for a handful of things that are extremely useful
-    -Have Theorem Finder (IE When Writing proof, the system will look for the rule)
-    -Syntax Follows expr, ref
-
-Add Theorem importing
-    -Theorems should act as rules as well
-
-Add FOL & Support for peano like functions
-
-
-FUTURE WARNINGS:
-    -Object Entabglement
-
-
-
-
-
-
+Proof Methods
+See programs/cases.mm

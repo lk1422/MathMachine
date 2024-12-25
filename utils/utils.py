@@ -1,5 +1,5 @@
-from token import Token, Tokens
-from symbol import Symbol
+from frontend.token import Token, Tokens
+from frontend.symbol import Symbol
 import copy
 
 
