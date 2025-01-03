@@ -1,5 +1,5 @@
-from token import Tokens, Token
-from errors import report
+from frontend.token import Tokens, Token
+from error_handling.errors import report
 
 class Symbol():
     def __init__(self, token):
@@ -67,6 +67,9 @@ class Symbol():
 
     def __eq__(self, other):
         #Can Only check Root Symbols
+        if type(self) != type(other):
+            return False
+
         check = self.token == other.token and \
                               len(self.children) == len(other.children)
         if check:
@@ -74,6 +77,7 @@ class Symbol():
                 if  self.children[i] != other.children[i]:
                     return False
             return True
+
 
         return False
 
@@ -100,12 +104,12 @@ class Symbol():
 
         if left_ind  < len(self.children):
            right = self.children[left_ind:]
-           for c in right:
+           for c in reversed(right):
                string += c._print_recursive("", level + 1)
 
         string += ("\t\t" * level) + str(self.token) + "\n\n"
 
-        for c in left:
+        for c in reversed(left):
            string += c._print_recursive("", level + 1)
                
         return string

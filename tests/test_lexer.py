@@ -5,10 +5,17 @@ from frontend.token import Tokens, Token
 def first_test():
     lex = Lexer("tests/examples/test1.mm")
     statements = lex.lex_file()
-    print([str(tok) for tok in statements[3]])
+    for s in statements:
+        print([str(tok) for tok in s])
+        print()
+
+def test_file(fn):
+    lex = Lexer(fn)
+    toks = lex.lex_file()
+    print([str(tok) for tok in toks])
 
 def run_all_tests():
-    first_test()
+    test_file("programs/cases.mm")
 
 
 if __name__ == "__main__":

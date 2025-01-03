@@ -7,27 +7,26 @@ class Lexer():
         self.raw_text = self._read_file(filename)
         self.current_ptr = 0
         self.line_no = 0
-        #self.statements = []
+        self._tokens = []
+
+    @property
+    def tokens(self):
+        
+        if len(self._tokens) == 0:
+            return self._tokens
+
+        if self._tokens[-1] != Token(Tokens.END_OF_LINE):
+            self._tokens.append(Token(Tokens.END_OF_LINE))
+
+        return self._tokens
 
     def lex_file(self):
-        statements = []
         while self.current_ptr != len(self.raw_text):
-            statements.append(self.lex_statement())
-        return statements
+            self.scan_token()
+        return self.tokens
 
-    def lex_statement(self):
-        """
-            Statements typically are just a single line, thus we parse the tokens off of a line.
-            However the Show expr From{...} ... Conclusion is a block statement, thus is all
-            parsed together in a single line.
-        """
-        statement_tokens = []
-
-        eos = self._get_end_of_statement()
-        while self.current_ptr != eos:
-            if (tok := self.scan_token()):
-                statement_tokens.append(tok)
-        return statement_tokens
+    def get_tokens(self):
+        return self.tokens
 
     def peek(self, chars):
         if self.current_ptr + chars <= len(self.raw_text):
@@ -49,85 +48,84 @@ class Lexer():
         match self.char:
             case "(":
                 self.advance_ptr()
-                return Token(Tokens.OPEN_PAREN, None)
+                self._tokens.append(Token(Tokens.OPEN_PAREN))
 
             case ")":
                 self.advance_ptr()
-                return Token(Tokens.CLOSED_PAREN, None)
+                self._tokens.append(Token(Tokens.CLOSED_PAREN))
 
             case "{":
                 self.advance_ptr()
-                return Token(Tokens.OPEN_BRACKET, None)
+                self._tokens.append(Token(Tokens.OPEN_BRACKET))
 
             case "}":
                 self.advance_ptr()
-                return Token(Tokens.CLOSED_BRACKET, None)
+                self._tokens.append(Token(Tokens.CLOSED_BRACKET))
 
             case ",":
                 self.advance_ptr()
-                return Token(Tokens.COMMA, None)
+                self._tokens.append(Token(Tokens.COMMA))
 
             case "&":
                 self.advance_ptr()
-                return Token(Tokens.AND_OP, None)
+                self._tokens.append(Token(Tokens.AND_OP))
 
             case "|":
                 self.advance_ptr()
-                return Token(Tokens.OR_OP, None)
+                self._tokens.append(Token(Tokens.OR_OP))
 
             case "~":
                 self.advance_ptr()
-                return Token(Tokens.NOT_OP, None)
+                self._tokens.append(Token(Tokens.NOT_OP))
 
             case ":":
                 self.advance_ptr()
-                return Token(Tokens.PREDICATE_DECL, None)
-
-            case "<":
-                return self.handle_lt()
-
-            case "-":
-                return self.handle_minus()
+                self._tokens.append(Token(Tokens.PREDICATE_DECL))
 
             case "\n":
                 self.line_no += 1
                 self.advance_ptr()
-                return None
+                self._tokens.append(Token(Tokens.END_OF_LINE))
+
+            case "<":
+                self._tokens.append(self.handle_lt())
+
+            case "-":
+                self._tokens.append(self.handle_minus())
 
             case _:
                 if self.char.isspace():
                     self.advance_ptr()
-                    return None
 
                 elif self.peek(len("Decl")) == "Decl":
                     self.advance_ptr(len("Decl"))
-                    return Token(Tokens.DECL, None)
+                    self._tokens.append(Token(Tokens.DECL))
 
                 elif self.peek(len("Thus")) == "Thus":
                     self.advance_ptr(len("Decl"))
-                    return Token(Tokens.THUS, None)
+                    self._tokens.append(Token(Tokens.THUS))
 
                 elif self.peek(len("import")) == "import":
                     self.advance_ptr(len("import"))
-                    return Token(Tokens.IMPORT, None)
+                    self._tokens.append(Token(Tokens.IMPORT))
 
                 elif self.peek(len("Show")) == "Show":
                     self.advance_ptr(len("Show"))
-                    return Token(Tokens.SHOW, None)
+                    self._tokens.append(Token(Tokens.SHOW))
 
                 elif self.peek(len("From")) == "From":
                     self.advance_ptr(len("From"))
-                    return Token(Tokens.FROM, None)
+                    self._tokens.append(Token(Tokens.FROM))
 
                 elif self.peek(len("Conclude")) == "Conclude":
                     self.advance_ptr(len("Conclude"))
-                    return Token(Tokens.CONCLUDE, None)
+                    self._tokens.append(Token(Tokens.CONCLUDE))
 
                 elif self.char.isupper():
-                    return self.predicate()
+                    self._tokens.append(self.predicate())
 
                 elif self.char.islower():
-                    return self.word()
+                    self._tokens.append(self.word())
 
                 else:
                     sym = self.raw_text[self.current_ptr] 
@@ -136,14 +134,14 @@ class Lexer():
     def handle_lt(self):
         if self.peek(len("<->")) == "<->":
             self.advance_ptr(len("<->"))
-            return Token(Tokens.BICOND_OP, None)
+            return Token(Tokens.BICOND_OP)
         else:
             report(self.line_no, "Invalid sequence of charecters followed from '<'")
 
     def handle_minus(self):
         if self.peek(len("->")) == "->":
             self.advance_ptr(len("->"))
-            return Token(Tokens.COND_OP, None)
+            return Token(Tokens.COND_OP)
         else:
             report(self.line_no, "Invalid sequence of charecters followed from '-'")
 

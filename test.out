@@ -1,0 +1,59 @@
+Passed Test
+Passed Proof Test
+				(Tokens.WORD, h)
+
+		Tokens.OR_OP
+
+						(Tokens.WORD, f)
+
+				Tokens.COND_OP
+
+								(Tokens.WORD, g)
+
+						Tokens.AND_OP
+
+								(Tokens.WORD, z)
+
+										(Tokens.WORD, _x)
+
+								(Tokens.PREDICATE_NAME, Q)
+
+						Tokens.AND_OP
+
+										(Tokens.WORD, _x)
+
+								(Tokens.PREDICATE_NAME, P)
+
+				Tokens.PREDICATE_DECL
+
+								(Tokens.WORD, _x)
+
+						(Tokens.PREDICATE_NAME, R)
+
+		Tokens.DECL
+
+Tokens.PROGRAM
+
+								(Tokens.WORD, z)
+
+						Tokens.OR_OP
+
+										(Tokens.WORD, y)
+
+								Tokens.AND_OP
+
+												(Tokens.WORD, y)
+
+										Tokens.COND_OP
+
+												(Tokens.WORD, _x)
+
+				Tokens.PREDICATE_DECL
+
+								(Tokens.WORD, _x)
+
+						(Tokens.PREDICATE_NAME, Q)
+
+		Tokens.DECL
+
+

@@ -26,6 +26,9 @@ class Tokens(Enum):
     SHOW           = auto()
     FROM           = auto()
     CONCLUDE       = auto()
+    EXPRESSIONS    = auto()
+    END_OF_LINE    = auto()
+    PROGRAM        = auto()
 
     def is_binary(self):
         match self:
@@ -40,21 +43,16 @@ class Tokens(Enum):
             case _:
                 return False
 
-
-    def is_op(self):
+    def is_unary(self):
         match self:
-            case Tokens.AND_OP:
-                return True
-            case Tokens.OR_OP:
-                return True
-            case Tokens.COND_OP:
-                return True
-            case Tokens.BICOND_OP:
-                return True
             case Tokens.NOT_OP:
                 return True
             case _:
                 return False
+
+
+    def is_op(self):
+        return self.is_unary() or self.is_binary()
 
 
     def get_priority(self):
@@ -73,7 +71,7 @@ class Tokens(Enum):
                 return None
 
 class Token():
-    def __init__(self,token_type, literal):
+    def __init__(self,token_type, literal=None):
         self.token_type = token_type
         self.literal = literal
 
@@ -83,6 +81,9 @@ class Token():
         return str(self.token_type)
 
     def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+
         return self.token_type == other.token_type and \
                self.literal == other.literal
 

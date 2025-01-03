@@ -1,7 +1,7 @@
 TODO:
-    -Update Language (Frontend & Backend) to support 'programs/cases.mm'
-        *Provisions to allow for proof by cases & method to prove p -> q
-        *Also add comments (They can be independent lines for now)
+    -Write Evaluator for new Show, From, Conclude Regimine.
+        -Including proof dependency tracker, IE what root statements a proof
+        follows from
 
     -Add System to begin archive new Theorems when proven
         * theorems/theorem_sub_class/.../theorem_name
@@ -29,10 +29,23 @@ TODO:
     -Begin w/ Peano Axioms
 
 FUTURE TODOS:
+    -Comments
+
     -better error catching system for frontend
         *More descriptive parser & lexer errors
 
     -Stacktrace for backend evaluator?
 
+    -Blank Statement at the end of conclude, FIX THIS
+
 Proof Methods
 See programs/cases.mm
+
+
+Structure of AST with Show, From
+
+       Show
+    /        \
+  From      PROGRAM
+    |          |
+pexpr, ...   sub ast

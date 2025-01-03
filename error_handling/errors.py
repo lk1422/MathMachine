@@ -7,7 +7,5 @@ def report(line, message):
     sys.exit(1)
 
 def critical_error(message):
-    print("CRITICAL ERROR")
-    print(message)
-    print(Fore.RED + message + Fore.RESET)
+    print(Fore.RED + "ERROR: " + message + Fore.RESET)
     sys.exit(1)
